@@ -1,29 +1,17 @@
 <?php
 
-$filename = "usuarios.csv";
-$data = array();
+$filename = "IMG_1013.jpg";
 
-if (file_exists($filename)){
+$base64 = base64_encode(file_get_contents($filename));
 
-    $file = fopen($filename, "r");
+$fileinfo = new finfo(FILEINFO_MIME_TYPE);
 
-    $headers = explode(";",fgets($file));
+$mimetype = $fileinfo->file($filename);
 
-    while ($row = fgets($file)){
-
-        $rowData = (explode(";",$row));
-        
-        for ($i = 0; $i < count($headers); $i++) {
-            $linha[$headers[$i]] = $rowData[$i];
-        }
-
-        array_push($data, $linha);
-    }
-
-    fclose($file);
-
-    echo json_encode($data);
-}
-
+$base64encode = "data:".$mimetype."image/png;base64," . $base64;
 
 ?>
+
+<a href="<?=$base64encode?>" target="_blank">Link para a imagem</a>
+
+<img src="<?=$base64encode?>">
